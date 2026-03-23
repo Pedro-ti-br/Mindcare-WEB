@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Pacientes - MindCare{% endblock %}
+
+{% block content %}
+{% include '_navbar.html' %}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Lista de Pacientes</h1>
+        <a href="{{ url_for('main.home') }}" class="btn btn-outline-secondary">Voltar ao Painel</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paciente in pacientes %}
+                    <tr>
+                        <td>{{ paciente.name }}</td>
+                        <td>{{ paciente.email }}</td>
+                        <td>
+                            <a href="{{ url_for('main.ficha_paciente', patient_id=paciente.id) }}" class="btn btn-sm btn-outline-primary">Ver Detalhes</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

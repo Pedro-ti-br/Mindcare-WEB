@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Agenda de Consultas - MindCare{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<!-- Adiciona o script/CSS do FullCalendar -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+
+<link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+<style>
+    /* Ajustes para o calendário se integrar bem com o Bootstrap 5 */
+    .fc-button-primary {
+        background-color: var(--mc-primary) !important;
+        border-color: var(--mc-primary) !important;
+    }
+    .fc-button-primary:hover {
+        background-color: var(--mc-primary-hover) !important;
+        border-color: var(--mc-primary-hover) !important;
+    }
+    .fc-event {
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include '_navbar.html' %}
+
+<div class="container">
+    <h1 class="h3 mb-4">Agenda de Consultas</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <!-- O calendário será renderizado aqui -->
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes/Cancelamento do Evento -->
+    <div class="modal fade" id="eventDetailModal" tabindex="-1" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventDetailModalLabel">Detalhes do Agendamento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Paciente:</strong> <span id="modalPatientName"></span></p>
+                    <p><strong>Data e Hora:</strong> <span id="modalDateTime"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    {% if session['user']['role'] in ['medico', 'secretaria'] %}
+                        <!-- Formulário de confirmação -->
+                        <form id="confirmForm" method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-success">Confirmar Consulta</button>
+                        </form>
+                        
+                        {% if session['user']['role'] == 'secretaria' %}
+                        <!-- Formulário de cancelamento visível apenas para a secretária -->
+                        <form id="cancelForm" method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-danger">Cancelar Agendamento</button>
+                        </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var eventDetailModal = new bootstrap.Modal(document.getElementById('eventDetailModal'));
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth', // Visão inicial de mês
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay' // Botões para mudar a visão
+            },
+            events: '{{ url_for("main.api_consultas") }}', // Busca os eventos da nossa API
+            locale: 'pt-br', // Traduz para o português
+            
+            // Função executada ao clicar em um evento
+            eventClick: function(info) {
+                // Preenche os dados do modal com as informações do evento
+                document.getElementById('modalPatientName').textContent = info.event.extendedProps.patientName;
+                document.getElementById('modalDateTime').textContent = info.event.extendedProps.formattedDateTime;
+
+                // Atualiza a action dos formulários
+                var confirmForm = document.getElementById('confirmForm');
+                var cancelForm = document.getElementById('cancelForm');
+                
+                if (confirmForm) {
+                    confirmForm.action = '/confirmar_consulta/' + info.event.id;
+                }
+                if (cancelForm) {
+                    cancelForm.action = '/cancelar_consulta/' + info.event.id;
+                }
+                eventDetailModal.show(); // Exibe o modal
+            }
+        });
+        calendar.render();
+    });
+</script>
+{% endblock %}

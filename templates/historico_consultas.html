@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Meu Histórico - MindCare{% endblock %}
+
+{% block content %}
+{% include '_navbar.html' %}
+
+<div class="container">
+    <h1 class="h3 mb-4">Meu Histórico de Consultas</h1>
+
+    <div class="card">
+        <div class="card-header">
+            Consultas Realizadas
+        </div>
+        <div class="list-group list-group-flush">
+            {% if consultas %}
+                {% for consulta in consultas %}
+                <div class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">Consulta com Dr. House</h5>
+                        <small class="text-muted">{{ consulta.scheduled_datetime.strftime('%d/%m/%Y') }}</small>
+                    </div>
+                    <p class="mb-1">Realizada às {{ consulta.scheduled_datetime.strftime('%H:%M') }}.</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="list-group-item">Você ainda não possui consultas concluídas em seu histórico.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

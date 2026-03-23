@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Ficha de {{ paciente.name }}{% endblock %}
+
+{% block content %}
+{% include '_navbar.html' %}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Ficha do Paciente</h1>
+        <a href="{{ url_for('main.lista_pacientes') }}" class="btn btn-outline-secondary">Voltar para a Lista</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    Dados Pessoais
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ paciente.name }}</h5>
+                    <p class="card-text"><strong>Email:</strong> {{ paciente.email or 'Não informado' }}</p>
+                    <p class="card-text"><strong>Telefone:</strong> {{ paciente.phone or 'Não informado' }}</p>
+                    <p class="card-text"><strong>Data de Nascimento:</strong> {{ paciente.birth_date.strftime('%d/%m/%Y') if paciente.birth_date else 'Não informada' }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    Histórico de Solicitações
+                </div>
+                <div class="list-group list-group-flush">
+                    {% if paciente.requests %}
+                        {% for req in paciente.requests|sort(attribute='requested_at', reverse=True) %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Solicitação #{{ req.id }}</h6>
+                                <small>{{ req.requested_at.strftime('%d/%m/%Y') }}</small>
+                            </div>
+                            <p class="mb-1">
+                                Status: <span class="badge bg-{% if req.status == 'pending' %}warning{% else %}success{% endif %}">{{ req.status }}</span>
+                            </p>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="list-group-item">
+                            Nenhuma solicitação encontrada.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

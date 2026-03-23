@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Login - MindCare{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">Login no MindCare</h2>
+                <form id="login-form" method="POST" action="{{ url_for('main.login') }}">
+                    <div class="mb-3">
+                        <label for="login_role" class="form-label">Eu sou</label>
+                        <select class="form-select" id="login_role" name="role">
+                            <option value="paciente" selected>Paciente</option>
+                            <option value="medico">Médico</option>
+                            <option value="secretaria">Secretária(o)</option>
+                        </select>
+                    </div>
+
+                    <!-- Campos para Paciente -->
+                    <div id="paciente-fields">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                    </div>
+
+                    <!-- Campo para Médico/Secretária -->
+                    <div id="codigo-acesso-field" style="display: none;">
+                        <div class="mb-3">
+                            <label for="access_code" class="form-label">Código de Acesso</label>
+                            <input type="password" class="form-control" id="access_code" name="access_code" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 transition-colors">Entrar</button>
+                </form>
+                <div class="text-center mt-3">
+                    <p>Não tem uma conta? <a href="{{ url_for('main.register') }}" class="fw-medium">Registre-se</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script para alternar os campos de login com base no perfil selecionado
+    document.getElementById('login_role').addEventListener('change', function () {
+        var role = this.value;
+        document.getElementById('paciente-fields').style.display = role === 'paciente' ? 'block' : 'none';
+        document.getElementById('codigo-acesso-field').style.display = role !== 'paciente' ? 'block' : 'none';
+    });
+    // Garante que o estado inicial esteja correto ao carregar a página
+    document.getElementById('login_role').dispatchEvent(new Event('change'));
+</script>
+{% endblock %}

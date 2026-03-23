@@ -1,0 +1,30 @@
+<!-- Modal de Agendamento -->
+<div class="modal fade" id="agendarModal-{{ req.id }}" tabindex="-1" aria-labelledby="agendarModalLabel-{{ req.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agendarModalLabel-{{ req.id }}">Agendar Consulta para {{ req.patient.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ url_for('main.agendar_consulta', request_id=req.id) }}" method="POST">
+                <div class="modal-body">
+                    <p><strong>Paciente:</strong> {{ req.patient.name }}</p>
+                    <p><strong>Solicitado em:</strong> {{ req.requested_at.strftime('%d/%m/%Y às %H:%M') }}</p>
+                    <hr>
+                    <div class="mb-3">
+                        <label for="data-{{ req.id }}" class="form-label">Data da Consulta</label>
+                        <input type="date" class="form-control" id="data-{{ req.id }}" name="data" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="hora-{{ req.id }}" class="form-label">Hora da Consulta</label>
+                        <input type="time" class="form-control" id="hora-{{ req.id }}" name="hora" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Confirmar Agendamento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+/* MindCare Custom Styles
+    Define a fonte Inter para toda a aplicação e estilos básicos de corpo.
+*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+/* Definição de variáveis de cor para o tema MindCare */
+:root {
+    --mc-primary: #3B82F6; /* Azul calmo */
+    --mc-primary-hover: #2563EB;
+    --mc-secondary: #6B7280; /* Cinza neutro */
+    --mc-light: #F9FAFB; /* Fundo muito claro */
+    --mc-text: #1F2937; /* Cor de texto principal */
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    /* Define um fundo cinza claro para a aplicação */
+    background-color: var(--mc-light);
+    color: var(--mc-text);
+}
+
+/* Estilos para a página de apresentação (landing) */
+.landing-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.landing-content {
+    max-width: 600px;
+}
+
+.landing-content h1 {
+    color: var(--mc-primary);
+}
+
+/* Aplica uma transição suave para todos os elementos interativos 
+    para uma melhor experiência de usuário.
+*/
+.transition-colors {
+    transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+/* Sobrescrevendo estilos do Bootstrap com nossas cores */
+.btn-primary {
+    background-color: var(--mc-primary);
+    border-color: var(--mc-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--mc-primary-hover);
+    border-color: var(--mc-primary-hover);
+}
+
+.form-control:focus {
+    border-color: var(--mc-primary);
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+}
+
+a {
+    color: var(--mc-primary);
+}
+
+a:hover {
+    color: var(--mc-primary-hover);
+}

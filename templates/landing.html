@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Bem-vindo ao MindCare{% endblock %}
+
+{% block styles %}
+<style>
+    .landing-hero {
+        max-width: none; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 75vh;
+        padding: 4rem 0; /* Aumentado */
+    }
+
+    .landing-content {
+        max-width: 650px;
+    }
+
+    .landing-content h1 {
+        color: var(--mc-primary);
+        margin-bottom: 2rem; /* Espaço abaixo do título */
+    }
+
+    .landing-content .lead {
+        line-height: 1.8; /* Mais espaçamento entre linhas */
+        margin-bottom: 3rem; /* Mais espaço abaixo do texto principal */
+    }
+
+    .d-grid.gap-3.d-sm-flex.justify-content-sm-center a {
+        margin: 0 0.75rem; /* Mais espaço lateral entre botões */
+    }
+
+    .about-section {
+        max-width: none;
+        padding: 10rem 0; /* Aumentado */
+        background-color: var(--mc-card-bg);
+        border-top: 10px solid #e5e7eb;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .about-section h2 {
+        margin-bottom: 2rem;
+    }
+
+    .about-section .lead {
+        line-height: 1.8;
+        margin-top: 2rem;
+    }
+
+    .page-footer {
+        border-top: 1px solid #e5e7eb;
+        padding: 3.5rem 0; /* Aumentado */
+    }
+
+    .page-footer p {
+        margin-bottom: 1rem; /* Espaço entre linhas do rodapé */
+    }
+
+    header.navbar {
+        padding: 1.5rem 0; /* Aumentado */
+        margin-bottom: 3rem; /* Mais espaçamento abaixo do header */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="px-3">
+    <!-- Header de Navegação -->
+    <header class="navbar navbar-expand-lg navbar-light bg-white my-4 rounded shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" style="color: var(--mc-primary);" href="{{ url_for('main.landing') }}">MindCare</a>
+            <div class="d-flex">
+                <a href="{{ url_for('main.login') }}" class="btn btn-outline-primary me-3 transition-colors">Entrar</a>
+                <a href="{{ url_for('main.register') }}" class="btn btn-primary transition-colors">Registrar</a>
+            </div>
+        </div>
+    </header>
+</div>
+
+<main>
+    <!-- Seção Principal (Hero) -->
+    <div class="landing-hero text-center">
+        <div class="landing-content px-3">
+            <h1 class="display-3 fw-bold">MindCare</h1>
+            <p class="lead">Conectando médicos, secretárias e pacientes em um só lugar.  
+                Cuidando da sua saúde mental com tecnologia e empatia.</p>
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
+                <a href="{{ url_for('main.login') }}" class="btn btn-primary btn-lg px-4 gap-3 transition-colors">
+                    Acessar Portal
+                </a>
+                <a href="{{ url_for('main.register') }}" class="btn btn-outline-secondary btn-lg px-4 transition-colors">
+                    Criar Conta de Paciente
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção Sobre a Clínica -->
+    <section class="about-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h2 class="fw-bold">Sobre a Clínica MindCare</h2>
+                    <p class="lead text-muted">
+                        Na MindCare, nossa missão é oferecer um ambiente acolhedor e seguro para o cuidado da sua saúde mental.  
+                        Utilizamos a tecnologia para facilitar a comunicação e o agendamento, permitindo que você foque no que realmente importa: seu bem-estar.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Rodapé -->
+<footer class="page-footer mt-5 text-muted">
+    <div class="container text-center">
+        <p><strong>Clínica MindCare</strong></p>
+        <p>Rua da Saúde, 123 - Bairro Bem-Estar - Cidade/UF</p>
+        <p>Telefone: (11) 5555-4444 | Horário: Seg a Sex, das 08h às 18h</p>
+    </div>
+</footer>
+
+{% endblock %}

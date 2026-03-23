@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard do Paciente - MindCare{% endblock %}
+
+{% block content %}
+{% include '_navbar.html' %}
+
+<div class="container">
+    <h1 class="h3 mb-4">Seu Painel, {{ user.name }}</h1>
+
+    <div class="row">
+        <!-- Coluna de Agendamentos Futuros -->
+        <div class="col-md-7">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Meus Agendamentos
+                </div>
+                <div class="list-group list-group-flush">
+                    {% if appointments %}
+                        {% for appt in appointments %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-1">Consulta Agendada</h5>
+                                    <p class="mb-0"><strong>Data:</strong> {{ appt.scheduled_datetime.strftime('%d/%m/%Y às %H:%M') }}</p>
+                                </div>
+                                <form action="{{ url_for('main.paciente_cancelar_consulta', request_id=appt.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja cancelar este agendamento?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Cancelar</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="list-group-item">Você não possui agendamentos futuros.</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Coluna de Ações -->
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Ações</h5>
+                    <p class="card-text">Solicite uma nova consulta ou veja seu histórico de atendimentos.</p>
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('main.historico_consultas') }}" class="btn btn-outline-secondary">Ver Histórico</a>
+                        <form action="{{ url_for('main.solicitar_consulta') }}" method="POST">
+                            <button type="submit" class="btn btn-primary w-100">Solicitar Nova Consulta</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
